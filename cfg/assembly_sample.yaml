@@ -12,83 +12,83 @@ spec:
       value: ${AWS_ACCESS_KEY_ID}
     - name: AWS_SECRET_ACCESS_KEY
       value: ${AWS_SECRET_ACCESS_KEY}
-    - name: KX_TRACE_S3
-      value: "1"         
+    - name: AZURE_STORAGE_ACCOUNT
+      value: ${AZURE_STORAGE_ACCOUNT}
+    - name: AZURE_STORAGE_SHARED_KEY
+      value: ${AZURE_STORAGE_SHARED_KEY}
+    - name: KX_TRACE_OBJSTR
+      value: "1"   
+    - name: KX_KURL_DEBUG_LOG          
+      value: "1"
 
 # Database schema
 tables:
   trade:
-    description: Trade data
+    description: trade data
     type: partitioned
     blockSize: 10000
-    prtnCol: timestamp
-    sortColsOrd: symbol
-    sortColsDisk: symbol
+    prtnCol: Date_Time
+    sortColsOrd: RIC
+    sortColsDisk: RIC
     columns:
-      - name: symbol
+      - name: RIC
+        description: sym
+        type: symbol
+        attrMem: grouped
+        attrDisk: parted
+        attrOrd: parted
+      - name: Date_Time
+        description: time
+        type: timestamp
+      - name: Open
+        description: open
+        type: float
+      - name: High
+        description: high
+        type: float
+      - name: Low
+        description: low
+        type: float
+      - name: Price
+        description: price
+        type: float
+      - name: Volume
+        description: vol
+        type: float    
+  
+  xref:
+    description: Ref data
+    type: partitioned
+    blockSize: 10000
+    prtnCol: Date_Time
+    sortColsOrd: RIC
+    sortColsDisk: RIC
+    columns:
+      - name: RIC
         description: Symbol name
         type: symbol
         attrMem: grouped
         attrDisk: parted
         attrOrd: parted
-      - name: timestamp
-        description: Time
+      - name: Date_Time
+        description: time
         type: timestamp
-      - name: side
-        description: side
-        type: symbol
-      - name: size
-        description: bid price
-        type: long
-      - name: price
-        description: bid price
-        type: float        
-      - name: tickDirection
-        description: Big size
-        type: symbol
-      - name: trdMatchID
-        description: Ask size
-        type: guid
-      - name: grossValue
-        description: Ask size
-        type: long
-      - name: homeNotional
-        description: Ask size
-        type: float
-      - name: foreignNotional
-        description: Ask size
-        type: float                        
-
-  quote:
-    description: Quote data
-    type: partitioned
-    blockSize: 10000
-    prtnCol: timestamp
-    sortColsOrd: symbol
-    sortColsDisk: symbol
-    columns:
-      - name: symbol
-        description: Symbol name
-        type: symbol
-        attrMem: grouped
-        attrDisk: parted
-        attrOrd: parted
-      - name: timestamp
-        description: Time
-        type: timestamp
-      - name: bidSize
-        description: Bid price
-        type: float
-      - name: bidPrice
-        description: bid price
-        type: float
-      - name: askPrice
-        description: Big size
-        type: float
-      - name: askSize
-        description: Ask size
-        type: float
-
+      - name: ISIN
+        description: col
+        type: char
+      - name: Type
+        description: col
+        type: string
+      - name: Domain
+        description: col
+        type: string        
+      - name: Trade_Price_Currency
+        description: col
+        type: string
+      - name: Ex_Cntrb_ID
+        description: col
+        type: string
+                    
 
 # Message bus configuration
 bus:
