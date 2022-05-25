@@ -1,4 +1,4 @@
-name: Example assembly
+name: BitMEX assembly
 description: Sample assembly file
 
 labels:
@@ -96,27 +96,12 @@ tables:
         type: float
 
 
-# Message bus configuration
-bus:
-  stream:   
-    protocol: custom
-    nodes: tp:5010
-    topic: dataStream
-
 # Database mount configuration
 mounts:
-  rdb:
-    type: stream
-    baseURI: file:///mnt/foo/i/
-    partition: none
-  idb:
-    type: local
-    baseURI: file:///data/db/idb
-    partition: ordinal
   hdb:
-    type: local
+    type: object
     baseURI: file:///data/db/hdb
-    partition: date      
+    partition: none      
 
 
 # Service configuration
@@ -125,42 +110,13 @@ elements:
     host: sgrc
     port: 5060
     timeout: 30000
-  
-  # SM configuration (also used by EOI, EOD, and DBM)
-  sm:
-    description: Storage manager
-    source: stream
-    # Tier configuration
-    tiers:
-      - name: stream
-        mount: rdb
-      - name: idb
-        mount: idb
-        schedule:
-          freq: 0D00:10:00 # every 10 minutes
-      - name: ondisk
-        mount: hdb
-        schedule:
-          freq: 1D00:00:00 # every day
-          snap:   01:35:00 # at 1:35 AM
-        retain:
-          time: 2 days
-          rows: 200000 
-      - name: s3
-        mount: hdb
-        store: s3://bitmex-hdb/db          
-    disableDiscovery: true  # Disables registering with discovery
+
   dap:
     # These configs apply to all DA below
     gwAssembly: gw-assembly
-    smEndpoints: sm:10001
     instances:
-      RDB:
-        # Config specific to DAPs with a KXI_SC of RDB
-        mountName: rdb # Must match name of mount in "mounts" section
-      IDB:
-        # Config specific to DAPs with a KXI_SC of IDB
-        mountName: idb
       HDB:
         # Config specific to DAPs with a KXI_SC of HDB
         mountName: hdb
+        par: /data/db/hdb/par.txt
+        sym: /data/db/hdb/sym
