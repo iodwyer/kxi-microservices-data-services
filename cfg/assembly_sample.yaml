@@ -113,7 +113,7 @@ elements:
 
   dap:
     # These configs apply to all DA below
-    gwAssembly: gw-assembly
+    gwEndpoints: sgrc:5060
     instances:
       HDB:
         # Config specific to DAPs with a KXI_SC of HDB

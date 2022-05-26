@@ -28,7 +28,7 @@ services:
   # Resource Coordinator -- 1 per assembly.
   #
   sgrc:
-    image: ${KX_DOCKER_REG}/kxi-sg-rc:${sg_version}
+    image: ${KX_DOCKER_REG_DEV}/kxi-sg-rc:${sg_version}
     environment:
       - KXI_NAME=sg_rc
       - KXI_PORT=5060
@@ -281,7 +281,7 @@ services:
       - KX_OBJSTR_CACHE_PATH=/opt/kx/cache
       - KX_S3_CACHE_SIZE=10000
       - KXI_CUSTOM_FILE=/opt/kx/cfg/custom.api.q      
-      - KXI_SG_RC_ADDR=sgrc:5060
+      # - KXI_SG_RC_ADDR=sgrc:5060  ## must be commented out 
     ports:
       - 127.0.0.1::5100
     deploy:
