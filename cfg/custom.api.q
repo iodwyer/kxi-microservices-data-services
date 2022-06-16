@@ -1,4 +1,6 @@
 .da.i.eorReceived:1b
+.db.getHdbStatus:{``pos!(::;0)}
+.db.getIdbStatus:{``pos!(::;0)}
 
 //
 // @desc Define a new API. Counts number of entries by specified columns.

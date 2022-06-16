@@ -99,7 +99,7 @@ tables:
 # Database mount configuration
 mounts:
   hdb:
-    type: object
+    type: local
     baseURI: file:///data/db/hdb
     partition: none      
 
@@ -118,5 +118,6 @@ elements:
       HDB:
         # Config specific to DAPs with a KXI_SC of HDB
         mountName: hdb
-        par: /data/db/hdb/par.txt
-        sym: /data/db/hdb/sym
+        # par: file:///data/db/hdb/par.txt
+        # sym: file:///data/db/hdb/sym
+
