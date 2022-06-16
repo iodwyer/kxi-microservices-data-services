@@ -8,7 +8,6 @@
   - [Create data folders](#create-data-folders)
   - [Docker start](#docker-start)
   - [Publish data](#publish-data)
-  - [Fix Purview](#fix-purview)
   - [Query Data](#query-data)
   - [Custom API](#custom-api)
 
@@ -35,13 +34,13 @@
 ```bash
 ## create file and populate appropriately
 $ tee .cloud_auth_env << EOF
-export AWS_REGION=
-export AWS_ACCESS_KEY_ID=
-export AWS_SECRET_ACCESS_KEY=
-export AZURE_STORAGE_ACCOUNT=
-export AZURE_STORAGE_SHARED_KEY=
-export GOOGLE_TOKEN=
-export GCLOUD_PROJECT_ID=
+AWS_REGION=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AZURE_STORAGE_ACCOUNT=
+AZURE_STORAGE_SHARED_KEY=
+GOOGLE_TOKEN=
+GCLOUD_PROJECT_ID=
 EOF
 ```
 
@@ -59,12 +58,9 @@ $ sudo chmod 777 -R db tplog cache
 ```bash
 $ docker login registry.dl.kx.com
 $ ./prepEnv.sh
-$ source .env
-$ source .cloud_auth_env
 $ docker-compose up -d
 $ docker-compose logs -f 
 ```
-
 
 
 ## Publish data
@@ -77,17 +73,6 @@ q)tp(`upd;`quote;flip (10?`IBM`AAPL`GOOG;10#.z.p;10?1000f;10?1000f;10?1000f;10?1
 q)tp(`upd;`trade;flip (10?`IBM`AAPL`GOOG;10#.z.p;10?`buy`sell;10?100j;10?1000f;10?`in`out;10?0ng;10?1000j;10?1000f;10?1000f))
 // q)tp(`upd;`xref;(10#.z.p;10?`IBM`AAPL`GOOG;10?10;10?0Ng;10?10h;10?10;10?1000)) 
 ```
-
-
-## Fix Purview 
-```q
-q)sgrc:hopen "J"$last ":" vs first system"docker port kxi-microservices-data-services_sgrc_1"
-q)sgrc"update startTS:-0Wp, endTS:first `timestamp$(exec max prtns[;`max_date] from .sgrc.i.daps where instance = `HDB) from `.sgrc.i.daps where instance = `HDB"
-`.sgrc.i.daps
-q)sgrc"update startTS:(exec max endTS from .sgrc.i.daps where not endTS=0Wp) from `.sgrc.i.daps where instance = `RDB"
-`.sgrc.i.daps
-```
-
 
 ## Query Data
 ```q
