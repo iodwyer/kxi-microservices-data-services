@@ -1,3 +1,5 @@
+.da.i.eorReceived:1b
+
 //
 // @desc Define a new API. Counts number of entries by specified columns.
 //
